@@ -38,7 +38,7 @@ services:
     image: tootsuite/mastodon
     ulimits:
       as:
-        hard: 1024000000
+        hard: 2048000000
         soft: 1024000000
     restart: always
     env_file: .env.production
@@ -56,6 +56,10 @@ services:
 #      - es
     volumes:
       - ./db:/mastodon/db
+    logging:
+      options:
+        max-size: 50m
+
 
   streaming:
     build: .
@@ -73,6 +77,9 @@ services:
     depends_on:
       - db
       - redis
+    logging:
+      options:
+        max-size: 50m
 
   sidekiq:
     build: .
@@ -86,6 +93,9 @@ services:
     networks:
       - external_network
       - internal_network
+    logging:
+      options:
+        max-size: 50m
 ## Uncomment to enable federation with tor instances along with adding the following ENV variables
 ## http_proxy=http://privoxy:8118
 ## ALLOW_ACCESS_TO_HIDDEN_SERVICE=true
