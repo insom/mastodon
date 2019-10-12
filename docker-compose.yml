@@ -38,8 +38,8 @@ services:
     image: tootsuite/mastodon
     ulimits:
       as:
-        hard: 2048000000
-        soft: 1024000000
+        hard: 3192000000
+        soft: 2048000000
     restart: always
     env_file: .env.production
     command: bash -c "rm -f /mastodon/tmp/pids/server.pid; bundle exec rails s -p 3000"
