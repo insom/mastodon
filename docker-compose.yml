@@ -21,25 +21,25 @@ services:
     volumes:
       - /home/aaron/data/redis:/data
 
-#  es:
-#    restart: always
-#    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.1.3
-#    environment:
-#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-#    networks:
-#      - internal_network
-#    healthcheck:
-#      test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1"]
-#    volumes:
-#      - ./elasticsearch:/usr/share/elasticsearch/data
+  es:
+    restart: always
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.1.3
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    networks:
+      - internal_network
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1"]
+    volumes:
+      - /home/aaron/data/elasticsearch:/usr/share/elasticsearch/data
 
   web:
     build: .
     image: tootsuite/mastodon
-    ulimits:
-      as:
-        hard: 3192000000
-        soft: 2048000000
+    #ulimits:
+    #  as:
+    #    hard: 3192000000
+    #    soft: 2048000000
     restart: always
     env_file: .env.production
     command: bash -c "rm -f /mastodon/tmp/pids/server.pid; bundle exec rails s -p 3000"
